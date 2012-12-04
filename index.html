@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8" />
+<!--[if lte IE 8]><meta http-equiv="X-UA-Compatible" content="chrome=1" /><![endif]-->
+<title>Buscando a Nemo</title>
+<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+
+<STYLE>
+body{
+background: url(fondo.jpg);
+background-repeat:no-repeat;}
+</STYLE>
+
+</head>
+
+<body>
+
+<div  style="margin-left:300px;margin-top:280px;" onclick="jQuery('#per').slideToggle('slow', function() {});">
+<img src="boton1.png"  onmouseover="this.src='boton11.png';"  onmouseout="this.src='boton1.png';" >
+</div>
+
+<div style="margin-left:310px" >
+<a href="juego.html"><img src="boton2.png"  onmouseover="this.src='boton22-1.png';"  onmouseout="this.src='boton2.png';" >
+</a>
+</div>
+
+<div id="per" style="display:none;position:absolute;margin-top:-150px;margin-left: -10px;z-index:100;cursor:pointer">
+<img src="ins.png"></div>
+
+</body>
+
+</html>

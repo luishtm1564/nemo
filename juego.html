@@ -1,0 +1,160 @@
+<html>
+
+
+<canvas height="437" id="canvas" style="border: 3px solid rgb(0, 170, 228); 
+background:url(fondo1.jpg);font-family:Georgia;font-size:25px!important;" width="553">
+
+</canvas>
+
+<script type="text/javascript">
+window.addEventListener('load',init,false);
+var canvas=null,ctx=null;
+var PAUSE=true;
+var lastKey=null;
+var mousex=0,mousey=0;
+var score=0,counter=0;
+var player=new Circle(0,0,5);
+var target=new Circle(100,100,15);
+
+var iSight=new Image();
+iSight.src='target1.png';
+
+var iTarget=new Image();
+iTarget.src='nemo.png';
+
+
+function init(){
+ canvas=document.getElementById('canvas');
+ 
+ ctx=canvas.getContext('2d');
+ canvas.addEventListener('mousedown',function(evt){
+  if(counter<-20){
+   PAUSE=false;
+   counter=600;
+   score=0;
+  }
+  else{
+   lastKey=0;
+  }
+ },false);
+ 
+ run();
+}
+
+function random(max){
+ return parseInt(Math.random()*max);
+}
+
+function run(){
+ setTimeout(run,50);
+ game();
+ paint(ctx);
+}
+
+function game(){
+ player.x=mousex;
+ player.y=mousey;
+ 
+ if(player.x<0)
+  player.x=0;
+ if(player.x>canvas.width)
+  player.x=canvas.width;
+ if(player.y<0)
+  player.y=0;
+ if(player.y>canvas.height)
+  player.y=canvas.height;
+
+ counter--;
+ if(!PAUSE){
+  if(lastKey==0){
+   canvas.style.background='#333';
+   if(player.distance(target)<0){
+    score++;
+    target.x=random(canvas.width/10-1)*10+target.radius;
+    target.y=random(canvas.height/10-1)*10+target.radius;
+   }
+  }
+  else
+   canvas.style.background='url(fondo1.jpg)';
+  
+  if(counter<1){
+   PAUSE=true;
+  }
+ }
+}
+
+function paint(ctx){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ 
+ ctx.drawImage(iTarget,target.x-target.radius,target.y-target.radius);
+ 
+ ctx.drawImage(iSight,player.x-player.radius,player.y-player.radius);
+ 
+ ctx.fillStyle='#fff';
+
+ ctx.font = "bold 15px sans-serif";
+
+ ctx.fillText('Puntaje: '+score,0,20);
+ if(counter>0)
+  ctx.fillText('Tiempo: '+(counter/20).toFixed(1),450,20);
+ else
+  ctx.fillText('Tiempo: 0.0',450,20);
+ if(PAUSE){
+ // ctx.fillText('Puntaje: '+score,205,60);
+  if(counter<-20)
+   ctx.fillText('Click para empezar',180,80);
+ }
+ lastKey=null;
+}
+
+document.addEventListener('mousemove',function(evt){
+ mousex=evt.pageX-getAbsX(canvas);
+ mousey=evt.pageY-getAbsY(canvas);
+},false);
+
+function getAbsX(e){
+ var x=0;
+ while(e!=null){
+  x+=e.offsetLeft;
+  e=e.offsetParent;
+ }
+ return x;
+}
+
+function getAbsY(e){
+ var y=0;
+ while(e!=null){
+  y+=e.offsetTop;
+  e=e.offsetParent;
+ }
+ return y;
+}
+
+function Circle(x,y,radius){
+ this.x=(x==null)?0:x;
+ this.y=(y==null)?0:y;
+ this.radius=(radius==null)?0:radius;
+ 
+ this.distance=function(circle){
+  if(circle!=null){
+   var dx=this.x-circle.x;
+   var dy=this.y-circle.y;
+   return (Math.sqrt(dx*dx+dy*dy)-(this.radius+circle.radius));
+  }
+ }
+}
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+</html>
